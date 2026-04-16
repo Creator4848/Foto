@@ -4,49 +4,55 @@ export default async function handler(req, res) {
   }
 
   const { compressedImage } = req.body;
-  const apiKey = process.env.GROQ_API_KEY || process.env.OPENROUTER_API_KEY;
+  const token = process.env.REPLICATE_API_TOKEN || process.env.GROQ_API_KEY; // FaIlback if they mistakenly saved it as GROQ
 
-  if (!apiKey) {
-    return res.status(500).json({ error: "Vercel muhitida (Environment Variables) API kalit topilmadi! Iltimos, Vercel sozlamalariga GROQ_API_KEY ni kiriting." });
-  }
-
-  let apiUrl = "https://openrouter.ai/api/v1/chat/completions";
-  let apiModel = "openai/gpt-4o-mini";
-
-  if (apiKey.startsWith("gsk_")) {
-      apiUrl = "https://api.groq.com/openai/v1/chat/completions";
-      apiModel = "meta-llama/llama-4-scout-17b-16e-instruct";
+  if (!token) {
+    return res.status(500).json({ error: "Vercel muhitida (Environment Variables) REPLICATE_API_TOKEN topilmadi! Iltimos, Vercel sozlamalariga kiriting." });
   }
 
   try {
-    const response = await fetch(apiUrl, {
+    // 1. Prediction yaratish
+    const startResponse = await fetch("https://api.replicate.com/v1/predictions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://fotomemory.vercel.app",
-        "X-Title": "PhotoMemory AI"
+        "Authorization": `Token ${token}`,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: apiModel,
-        messages: [
-          {
-            role: "user",
-            content: [
-              { type: "text", text: "You are an AI photo restorer. Look at this photo. Decide the best enhancement values. Return ONLY a pure JSON object in this format: {\"enhance\": 0.8, \"saturate\": 0.6} where values represent percentages (0.0 to 1.0). Use 'saturate' around 0.8 for black/white images, and 'enhance' around 0.9 for blurry/damaged ones." },
-              { type: "image_url", image_url: { url: compressedImage } }
-            ]
-          }
-        ]
+        // microsoft/bringing-old-photos-back-to-life
+        version: "c75db81db6cbd809d93cc3b7e7a088a351a3349c9fa02b6d393e35e0d51ba799",
+        input: {
+          image: compressedImage,
+          HR: false,
+          with_scratch: true
+        }
       })
     });
 
-    const data = await response.json();
-    if (!response.ok || !data.choices) {
-      throw new Error(data.error ? data.error.message : "Noma'lum API xatosi");
+    let prediction = await startResponse.json();
+    if (startResponse.status !== 201) {
+      throw new Error(prediction.detail || "Replicate API ishga tushirishda xatolik");
     }
 
-    res.status(200).json(data);
+    // 2. Kuting (Polling) natija tayyor bo'lmaguncha
+    while (
+      prediction.status !== "succeeded" &&
+      prediction.status !== "failed" &&
+      prediction.status !== "canceled"
+    ) {
+      await new Promise(r => setTimeout(r, 2000)); // 2 soniya kutamiz
+      const pollResponse = await fetch(prediction.urls.get, {
+        headers: { "Authorization": `Token ${token}` },
+      });
+      prediction = await pollResponse.json();
+    }
+
+    if (prediction.status === "succeeded") {
+      // Replicate natijasi fayl URL si sifatida qaytadi
+      res.status(200).json({ resultUrl: prediction.output });
+    } else {
+      throw new Error(`Xatolik yuz berdi: ${prediction.error}`);
+    }
   } catch (error) {
     console.error("API error", error);
     res.status(500).json({ error: error.message });
