@@ -889,6 +889,8 @@
                     method: "POST",
                     headers: {
                         "Authorization": "Bearer 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",
+                        "HTTP-Referer": window.location.href,
+                        "X-Title": "PhotoMemory AI",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
@@ -906,6 +908,10 @@
                 });
 
                 const data = await response.json();
+                if (!response.ok || !data.choices) {
+                    throw new Error(data.error ? data.error.message : "Noma'lum API xatosi");
+                }
+
                 let textContent = data.choices[0].message.content.trim();
                 if (textContent.startsWith("```json")) {
                     textContent = textContent.replace(/```json/g, '').replace(/```/g, '').trim();
@@ -924,8 +930,8 @@
                 }
             } catch (e) {
                 console.error("AI API xatosi", e);
-                progressText.textContent = "AI ulanishida xatolik... standart sozlamalar.";
-                await new Promise(r => setTimeout(r, 1000));
+                progressText.textContent = "AI xatoligi: " + (e.message || "Ulanish muammosi");
+                await new Promise(r => setTimeout(r, 2500));
             }
 
             progressBar.style.width = '70%';
@@ -991,16 +997,12 @@
 
                         if (doColorize) {
                             const gray = 0.299 * r + 0.587 * g + 0.114 * b;
-                            const isGrayscale = Math.abs(r - g) < 18 && Math.abs(g - b) < 18 && Math.abs(r - b) < 18;
-                            if (isGrayscale || sat > 0.3) {
-                                const warm = gray / 255;
-                                let nr, ng, nb;
-                                if (warm > 0.8) { nr = 255; ng = 250; nb = 230; }
-                                else if (warm > 0.6) { nr = 230 + warm * 20; ng = 210 + warm * 30; nb = 180 + warm * 20; }
-                                else if (warm > 0.35) { nr = 160 + warm * 60; ng = 120 + warm * 70; nb = 80 + warm * 60; }
-                                else if (warm > 0.15) { nr = 70 + warm * 80; ng = 50 + warm * 60; nb = 40 + warm * 50; }
-                                else { nr = 20 + warm * 50; ng = 15 + warm * 40; nb = 10 + warm * 30; }
-                                const blend = sat * 0.85;
+                            const isGrayscale = Math.abs(r - g) < 25 && Math.abs(g - b) < 25 && Math.abs(r - b) < 25;
+                            if (isGrayscale || sat > 0.1) {
+                                let nr = Math.min(255, gray * 1.15 + 10);
+                                let ng = Math.min(255, gray * 0.95 + 5);
+                                let nb = Math.min(255, gray * 0.82);
+                                const blend = sat * 0.9;
                                 r = r * (1 - blend) + nr * blend;
                                 g = g * (1 - blend) + ng * blend;
                                 b = b * (1 - blend) + nb * blend;
