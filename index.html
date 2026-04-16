@@ -933,7 +933,7 @@
 
                 if (apiKey.startsWith("gsk_")) {
                     apiUrl = "https://api.groq.com/openai/v1/chat/completions";
-                    apiModel = "llama-3.2-90b-vision-preview";
+                    apiModel = "meta-llama/llama-4-scout-17b-16e-instruct";
                 }
 
                 const response = await fetch(apiUrl, {
