@@ -632,6 +632,35 @@
 
 <body class="hero-bg">
 
+    <!-- FIRST-RUN API SETUP MODAL -->
+    <div id="apiModal"
+        style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(10,10,15,0.92); backdrop-filter:blur(8px); align-items:center; justify-content:center; flex-direction:column;">
+        <div
+            style="background:linear-gradient(135deg,rgba(30,28,40,0.98),rgba(18,16,26,0.98)); border:0.5px solid rgba(201,168,76,0.3); border-radius:20px; padding:2.5rem; max-width:480px; width:90%; text-align:center;">
+            <div
+                style="width:52px;height:52px;border:1.5px solid rgba(201,168,76,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;">
+                <svg width="22" height="22" viewBox="0 0 24 24" stroke="#c9a84c" fill="none" stroke-width="1.5">
+                    <circle cx="12" cy="8" r="3" />
+                    <path d="M12 11v5m-3 0h6" />
+                    <rect x="3" y="3" width="18" height="18" rx="4" />
+                </svg>
+            </div>
+            <h2 style="font-family:'DM Serif Display',serif;color:#e8e4d9;font-size:1.5rem;margin-bottom:0.5rem;">AI
+                kalitini sozlang</h2>
+            <p style="color:rgba(232,228,217,0.45);font-size:0.85rem;margin-bottom:1.5rem;line-height:1.6;">Groq API
+                kalitingizni kiriting. U faqat brauzeringizda saqlanadi va hech yerga yuborilmaydi.</p>
+            <input id="modalApiKey" type="password" placeholder="gsk_... (Groq) yoki sk-or-v1-... (OpenRouter)"
+                style="width:100%;padding:0.85rem 1rem;background:rgba(255,255,255,0.04);border:0.5px solid rgba(201,168,76,0.3);border-radius:10px;color:#e8e4d9;font-size:0.9rem;outline:none;margin-bottom:1rem;box-sizing:border-box;transition:border 0.2s;"
+                onfocus="this.style.borderColor='#c9a84c'" onblur="this.style.borderColor='rgba(201,168,76,0.3)'">
+            <button id="modalSaveBtn" onclick="saveModalKey()"
+                style="width:100%;padding:0.85rem;background:linear-gradient(135deg,#c9a84c,#a07830);border:none;border-radius:10px;color:#0a0a0f;font-weight:700;font-size:1rem;cursor:pointer;transition:filter 0.2s;"
+                onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">✦ Saqlash va
+                boshlash</button>
+            <p style="margin-top:1rem;font-size:0.72rem;color:rgba(232,228,217,0.2);">Groq.com → API Keys → Create →
+                Nusxalab qo'ying</p>
+        </div>
+    </div>
+
     <header>
         <div class="logo">
             <div class="logo-dot"></div>
@@ -798,9 +827,18 @@
         let isComparing = false;
         let startTime;
 
-        // API Key (encoded)
-        const _k = atob(['Z3NrX01mZ1Qx', 'emRaQWN0R3J4', 'cThqSDE3V0dk', 'eWIzRllOVU50', 'OWlJdnF6TzBt', 'UlROTDlMam4x', 'dXk='].join(''));
-        function getApiKey() { return localStorage.getItem('photoMemoryKey') || _k; }
+        // API Key from localStorage only (set once via setup modal)
+        function getApiKey() { return localStorage.getItem('photoMemoryKey') || ''; }
+        function saveModalKey() {
+            const key = document.getElementById('modalApiKey').value.trim();
+            if (!key) return;
+            localStorage.setItem('photoMemoryKey', key);
+            document.getElementById('apiModal').style.display = 'none';
+        }
+        // Show modal on first run if no key is saved
+        if (!localStorage.getItem('photoMemoryKey')) {
+            document.getElementById('apiModal').style.display = 'flex';
+        }
 
         // Drag & Drop
         dropZone.addEventListener('click', () => fileInput.click());
