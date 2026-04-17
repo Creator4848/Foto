@@ -502,7 +502,8 @@
         .compare-enhanced {
             position: absolute;
             inset: 0;
-            overflow: hidden;
+            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+            width: 100%;
         }
 
         .compare-enhanced img {
@@ -763,13 +764,8 @@
         }
 
         .g-after {
-            overflow: hidden;
-            width: 50%;
-        }
-
-        .g-after img {
-            width: 200%;
-            max-width: none;
+            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+            width: 100%;
         }
 
         .g-handle {
@@ -1632,7 +1628,7 @@
             const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
             const pct = (x / rect.width * 100).toFixed(1);
             compareHandle.style.left = pct + '%';
-            compareEnhanced.style.width = pct + '%';
+            compareEnhanced.style.clipPath = `polygon(0 0, ${pct}% 0, ${pct}% 100%, 0 100%)`;
         }
 
         // ===== Gallery sliders =====
@@ -1642,20 +1638,10 @@
             const handle = document.getElementById(handleId);
             if (!slider) return;
             let active = false;
-            const move = (clientX) => {
-                const rect = slider.getBoundingClientRect();
-                const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width * 100, 100));
-                after.style.width = pct + '%';
-                handle.style.left = pct + '%';
-                // shift the inner img so the right portion stays visible
-                after.querySelector('img').style.transform = `translateX(-${pct}%)`;
-                after.querySelector('img').style.width = `${100 / (pct / 100 || 0.0001)}%`;
-            };
-            // simpler: keep img 200% wide and use clip via parent width
             const simpleMove = (clientX) => {
                 const rect = slider.getBoundingClientRect();
                 const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width * 100, 100));
-                after.style.width = pct + '%';
+                after.style.clipPath = `polygon(0 0, ${pct}% 0, ${pct}% 100%, 0 100%)`;
                 handle.style.left = pct + '%';
             };
             handle.addEventListener('mousedown', () => active = true);
