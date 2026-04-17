@@ -77,6 +77,7 @@
 
         nav a {
             color: rgba(232, 228, 217, 0.5);
+            scroll-behavior: smooth;
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 400;
@@ -601,6 +602,420 @@
             height: 8px;
         }
 
+        /* ====== FEATURES SECTION ====== */
+        .section {
+            padding: 6rem 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #c9a84c;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1.1;
+            color: #e8e4d9;
+            margin-bottom: 1rem;
+        }
+
+        .section-sub {
+            color: rgba(232, 228, 217, 0.45);
+            font-size: 0.95rem;
+            max-width: 480px;
+            line-height: 1.7;
+            margin-bottom: 3.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.025);
+            border: 0.5px solid rgba(232, 228, 217, 0.09);
+            border-radius: 16px;
+            padding: 1.75rem 1.5rem;
+            transition: border-color 0.3s, background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(201, 168, 76, 0.25);
+            background: rgba(201, 168, 76, 0.03);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(201, 168, 76, 0.1);
+            border: 0.5px solid rgba(201, 168, 76, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .feature-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: #c9a84c;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .feature-card h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #e8e4d9;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.8rem;
+            color: rgba(232, 228, 217, 0.4);
+            line-height: 1.65;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.65rem;
+            padding: 3px 9px;
+            border-radius: 20px;
+            background: rgba(201, 168, 76, 0.08);
+            color: #c9a84c;
+            border: 0.5px solid rgba(201, 168, 76, 0.18);
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* ====== DIVIDER ====== */
+        .section-divider {
+            border: none;
+            border-top: 0.5px solid rgba(232, 228, 217, 0.07);
+            margin: 0 3rem;
+        }
+
+        /* ====== GALLERY SECTION ====== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .gallery-card {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 0.5px solid rgba(232, 228, 217, 0.09);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .gallery-slider {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            user-select: none;
+            cursor: ew-resize;
+        }
+
+        .g-before,
+        .g-after {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .g-before img,
+        .g-after img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .g-after {
+            overflow: hidden;
+            width: 50%;
+        }
+
+        .g-after img {
+            width: 200%;
+            max-width: none;
+        }
+
+        .g-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: #c9a84c;
+            cursor: ew-resize;
+            z-index: 4;
+        }
+
+        .g-handle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 26px;
+            height: 26px;
+            background: #c9a84c;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.2);
+        }
+
+        .g-handle-arrows {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 2px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .g-handle-arrows svg {
+            width: 10px;
+            height: 10px;
+            fill: #0a0a0f;
+        }
+
+        .g-label {
+            position: absolute;
+            top: 10px;
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 20px;
+            z-index: 5;
+        }
+
+        .g-label-before {
+            left: 10px;
+            background: rgba(10, 10, 15, 0.65);
+            color: rgba(232, 228, 217, 0.6);
+        }
+
+        .g-label-after {
+            right: 10px;
+            background: rgba(201, 168, 76, 0.85);
+            color: #0a0a0f;
+        }
+
+        .gallery-meta {
+            padding: 0.85rem 1rem;
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .gallery-tag {
+            font-size: 0.62rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(232, 228, 217, 0.45);
+            border: 0.5px solid rgba(232, 228, 217, 0.08);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        /* ====== ABOUT SECTION ====== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .about-left .section-sub {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-pillars {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .about-pillar {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1.1rem 1.25rem;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 0.5px solid rgba(232, 228, 217, 0.08);
+            transition: border-color 0.3s;
+        }
+
+        .about-pillar:hover {
+            border-color: rgba(201, 168, 76, 0.2);
+        }
+
+        .about-pillar-icon {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            border-radius: 10px;
+            background: rgba(201, 168, 76, 0.08);
+            border: 0.5px solid rgba(201, 168, 76, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-pillar-icon svg {
+            width: 17px;
+            height: 17px;
+            stroke: #c9a84c;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .about-pillar h4 {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #e8e4d9;
+            margin-bottom: 0.3rem;
+        }
+
+        .about-pillar p {
+            font-size: 0.78rem;
+            color: rgba(232, 228, 217, 0.4);
+            line-height: 1.6;
+        }
+
+        .contact-card {
+            padding: 2rem;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.025);
+            border: 0.5px solid rgba(232, 228, 217, 0.09);
+            margin-top: 0;
+        }
+
+        .contact-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: #e8e4d9;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card p {
+            font-size: 0.82rem;
+            color: rgba(232, 228, 217, 0.4);
+            line-height: 1.65;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .contact-input {
+            background: rgba(255, 255, 255, 0.04);
+            border: 0.5px solid rgba(232, 228, 217, 0.1);
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            color: #e8e4d9;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+            resize: none;
+        }
+
+        .contact-input::placeholder {
+            color: rgba(232, 228, 217, 0.25);
+        }
+
+        .contact-input:focus {
+            border-color: rgba(201, 168, 76, 0.4);
+        }
+
+        .contact-btn {
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #c9a84c, #a07830);
+            border: none;
+            border-radius: 10px;
+            color: #0a0a0f;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+
+        .contact-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        /* ====== FOOTER ====== */
+        .site-footer {
+            border-top: 0.5px solid rgba(232, 228, 217, 0.07);
+            padding: 2rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: rgba(232, 228, 217, 0.25);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 1rem 1.5rem;
@@ -638,9 +1053,9 @@
             PhotoMemory
         </div>
         <nav>
-            <a href="#">Xususiyatlar</a>
-            <a href="#">Namunalar</a>
-            <a href="#">Haqida</a>
+            <a href="#features">Xususiyatlar</a>
+            <a href="#samples">Namunalar</a>
+            <a href="#about">Haqida</a>
         </nav>
         <span class="colorize-badge">
             <svg viewBox="0 0 24 24" fill="currentColor">
@@ -771,6 +1186,256 @@
         </div>
 
     </main>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <hr class="section-divider">
+    <section id="features">
+        <div class="section">
+            <div class="section-eyebrow">Imkoniyatlar</div>
+            <h2 class="section-title">AI nima qila oladi?</h2>
+            <p class="section-sub">Rasmingizni yuklashdan oldin tizimning kuchini biling — zamonaviy neyron tarmoqlar
+                bir necha soniyada mo''jizalar yaratadi.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                    <h3>Sifatni oshirish</h3>
+                    <p>Past aniqlikdagi rasmlarni detallarni yo'qotmagan holda 4x gacha kattalashtiradi va
+                        jivirgachlarni tiklaydi.</p>
+                    <span class="feature-tag">4× Upscaling</span>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5" />
+                            <path
+                                d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                        </svg>
+                    </div>
+                    <h3>Rangga kiritish</h3>
+                    <p>Eski oq-qora fotosuratlarni neyron tarmoqlar yordamida tabiiy, hayotiy ranglarga bo'yash.</p>
+                    <span class="feature-tag">AI Colorization</span>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="5" />
+                            <path d="M20 21a8 8 0 10-16 0" />
+                        </svg>
+                    </div>
+                    <h3>Yuzlarni tiklash</h3>
+                    <p>Xira bo'lib ketgan yuz qismlarini aniqlashtiradi, ko'z va soch tolalarigacha detallarni qayta
+                        tiklaydi.</p>
+                    <span class="feature-tag">Face Restoration</span>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 6h18M3 12h18M3 18h18" />
+                            <line x1="8" y1="3" x2="8" y2="21" opacity=".35" />
+                        </svg>
+                    </div>
+                    <h3>Chiziqlarni o'chirish</h3>
+                    <p>Rasmdagi jismoniy shikastlanishlar, chang dog'lari va "shovqin"larni avtomatik aniqlaydi hamda
+                        tozalaydi.</p>
+                    <span class="feature-tag">Scratch Removal</span>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="13 2 13 9 20 9" />
+                            <path d="M20 14.5V20a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2h7" />
+                            <line x1="9" y1="15" x2="15" y2="15" />
+                            <line x1="9" y1="18" x2="12" y2="18" />
+                        </svg>
+                    </div>
+                    <h3>Tezkorlik</h3>
+                    <p>Barcha jarayon avtomatik va parallel ishlaydi — natijani bir necha soniya ichida qo'lingizda
+                        tayyor bo'ladi.</p>
+                    <span class="feature-tag">‹ 30 soniya</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SAMPLES SECTION ===== -->
+    <hr class="section-divider">
+    <section id="samples">
+        <div class="section">
+            <div class="section-eyebrow">Namunalar</div>
+            <h2 class="section-title">Oldin va Keyin</h2>
+            <p class="section-sub">Slayderlarni suring va oq-qora, sarg'aygan yoki chizilgan rasmlarning qanday
+                yangilanganini o'z ko'zingiz bilan ko'ring.</p>
+            <div class="gallery-grid">
+
+                <!-- Card 1 -->
+                <div class="gallery-card">
+                    <div class="gallery-slider" id="gs1">
+                        <div class="g-before">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/320px-Camponotus_flavomarginatus_ant.jpg"
+                                alt="Oldin" style="filter:grayscale(1) sepia(0.3) brightness(0.7) contrast(1.2);">
+                        </div>
+                        <div class="g-after" id="ga1">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/320px-Camponotus_flavomarginatus_ant.jpg"
+                                alt="Keyin">
+                        </div>
+                        <div class="g-label g-label-before">Oldin</div>
+                        <div class="g-label g-label-after">Keyin</div>
+                        <div class="g-handle" id="gh1">
+                            <div class="g-handle-arrows">
+                                <svg viewBox="0 0 10 10">
+                                    <polygon points="6,2 2,5 6,8" />
+                                </svg>
+                                <svg viewBox="0 0 10 10">
+                                    <polygon points="4,2 8,5 4,8" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-meta">
+                        <span class="gallery-tag">Scratch Removal</span>
+                        <span class="gallery-tag">Colorize</span>
+                        <span class="gallery-tag">Face Enhance</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="gallery-card">
+                    <div class="gallery-slider" id="gs2">
+                        <div class="g-before">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Biijam.jpg/320px-Biijam.jpg"
+                                alt="Oldin" style="filter:grayscale(1) brightness(0.65) contrast(1.3) blur(1px);">
+                        </div>
+                        <div class="g-after" id="ga2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Biijam.jpg/320px-Biijam.jpg"
+                                alt="Keyin">
+                        </div>
+                        <div class="g-label g-label-before">Oldin</div>
+                        <div class="g-label g-label-after">Keyin</div>
+                        <div class="g-handle" id="gh2">
+                            <div class="g-handle-arrows">
+                                <svg viewBox="0 0 10 10">
+                                    <polygon points="6,2 2,5 6,8" />
+                                </svg>
+                                <svg viewBox="0 0 10 10">
+                                    <polygon points="4,2 8,5 4,8" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-meta">
+                        <span class="gallery-tag">Colorize</span>
+                        <span class="gallery-tag">4× Upscale</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="gallery-card">
+                    <div class="gallery-slider" id="gs3">
+                        <div class="g-before">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Golden_Gate_Bridge%2C_San_Francisco_%281932%29.jpg/320px-Golden_Gate_Bridge%2C_San_Francisco_%281932%29.jpg"
+                                alt="Oldin" style="filter:grayscale(1) sepia(0.4) brightness(0.6) contrast(1.4);">
+                        </div>
+                        <div class="g-after" id="ga3">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Golden_Gate_Bridge%2C_San_Francisco_%281932%29.jpg/320px-Golden_Gate_Bridge%2C_San_Francisco_%281932%29.jpg"
+                                alt="Keyin">
+                        </div>
+                        <div class="g-label g-label-before">Oldin</div>
+                        <div class="g-label g-label-after">Keyin</div>
+                        <div class="g-handle" id="gh3">
+                            <div class="g-handle-arrows">
+                                <svg viewBox="0 0 10 10">
+                                    <polygon points="6,2 2,5 6,8" />
+                                </svg>
+                                <svg viewBox="0 0 10 10">
+                                    <polygon points="4,2 8,5 4,8" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-meta">
+                        <span class="gallery-tag">Colorize</span>
+                        <span class="gallery-tag">Scratch Removal</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <hr class="section-divider">
+    <section id="about">
+        <div class="section">
+            <div class="about-grid">
+                <div class="about-left">
+                    <div class="section-eyebrow">Haqida</div>
+                    <h2 class="section-title">Unutilgan
+                        xotiralar uchun</h2>
+                    <p class="section-sub">PhotoMemory — oilaviy arxivlarda yillab yotgan, sarg'aygan, yirtilgan va xira
+                        bo'lib ketgan fotosuratlarni zamonaviy AI yordamida qayta tiklash platformasi.</p>
+                    <div class="about-pillars">
+                        <div class="about-pillar">
+                            <div class="about-pillar-icon"><svg viewBox="0 0 24 24">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                </svg></div>
+                            <div>
+                                <h4>Maxfiylik kafolati</h4>
+                                <p>Siz yuklagan rasmlar serverlarimizda saqlanmaydi. Barcha qayta ishlash real vaqtda
+                                    amalga oshiriladi va keyin avtomatik o'chiriladi. Uchinchi tomonlarga hech qanday
+                                    ma'lumot uzatilmaydi.</p>
+                            </div>
+                        </div>
+                        <div class="about-pillar">
+                            <div class="about-pillar-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.663 17h4.673M12 3v1M6.343 6.343l-.707-.707M3 12h1M21 12h-1M17.657 6.343l.707-.707M6.343 17.657l-.707.707M17.657 17.657l.707.707" />
+                                    <circle cx="12" cy="12" r="4" />
+                                </svg></div>
+                            <div>
+                                <h4>Deep Learning texnologiyasi</h4>
+                                <p>Platforma Microsoft Research va CodeFormer kabi ilg'or neyron tarmoqlar asosida
+                                    qurilgan bo'lib, har bir rasm uchun ikki bosqichli AI pipeline ishlatiladi.</p>
+                            </div>
+                        </div>
+                        <div class="about-pillar">
+                            <div class="about-pillar-icon"><svg viewBox="0 0 24 24">
+                                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+                                </svg></div>
+                            <div>
+                                <h4>Missiyamiz</h4>
+                                <p>Unutilayotgan oilaviy xotiralarga yangi hayot bag'ishlash — bu shunchaki rasm tiklash
+                                    emas, balki avlodlar orasidagi ko'prik qurishdir.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-right">
+                    <div class="contact-card">
+                        <h3>Bog'laning</h3>
+                        <p>Savollaringiz bormi yoki taklif qilmoqchimisiz? Xabar qoldiring va biz tez orada javob
+                            beramiz.</p>
+                        <form class="contact-form" onsubmit="handleContact(event)">
+                            <input class="contact-input" type="text" placeholder="Ismingiz" required>
+                            <input class="contact-input" type="email" placeholder="Email manzilingiz" required>
+                            <textarea class="contact-input" rows="4" placeholder="Xabaringiz..."></textarea>
+                            <button class="contact-btn" type="submit">✦ Yuborish</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <span>© 2025 PhotoMemory AI</span>
+        <span>Barcha huquqlar himoyalangan</span>
+    </footer>
 
     <script>
         const dropZone = document.getElementById('dropZone');
@@ -974,6 +1639,54 @@
             const pct = (x / rect.width * 100).toFixed(1);
             compareHandle.style.left = pct + '%';
             compareEnhanced.style.width = pct + '%';
+        }
+
+        // ===== Gallery sliders =====
+        function initGallerySlider(sliderId, afterId, handleId) {
+            const slider = document.getElementById(sliderId);
+            const after = document.getElementById(afterId);
+            const handle = document.getElementById(handleId);
+            if (!slider) return;
+            let active = false;
+            const move = (clientX) => {
+                const rect = slider.getBoundingClientRect();
+                const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width * 100, 100));
+                after.style.width = pct + '%';
+                handle.style.left = pct + '%';
+                // shift the inner img so the right portion stays visible
+                after.querySelector('img').style.transform = `translateX(-${pct}%)`;
+                after.querySelector('img').style.width = `${100 / (pct / 100 || 0.0001)}%`;
+            };
+            // simpler: keep img 200% wide and use clip via parent width
+            const simpleMove = (clientX) => {
+                const rect = slider.getBoundingClientRect();
+                const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width * 100, 100));
+                after.style.width = pct + '%';
+                handle.style.left = pct + '%';
+            };
+            handle.addEventListener('mousedown', () => active = true);
+            handle.addEventListener('touchstart', () => active = true, { passive: true });
+            slider.addEventListener('mousedown', (e) => { active = true; simpleMove(e.clientX); });
+            document.addEventListener('mouseup', () => active = false);
+            document.addEventListener('touchend', () => active = false);
+            document.addEventListener('mousemove', (e) => { if (active) simpleMove(e.clientX); });
+            document.addEventListener('touchmove', (e) => { if (active) simpleMove(e.touches[0].clientX); }, { passive: true });
+        }
+        initGallerySlider('gs1', 'ga1', 'gh1');
+        initGallerySlider('gs2', 'ga2', 'gh2');
+        initGallerySlider('gs3', 'ga3', 'gh3');
+
+        // ===== Contact form =====
+        function handleContact(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.contact-btn');
+            btn.textContent = '✓ Yuborildi!';
+            btn.style.background = 'linear-gradient(135deg,#7dc87d,#4a9a4a)';
+            setTimeout(() => {
+                btn.textContent = '✦ Yuborish';
+                btn.style.background = '';
+                e.target.reset();
+            }, 3000);
         }
     </script>
 </body>
