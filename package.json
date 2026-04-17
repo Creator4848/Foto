@@ -1,0 +1,9 @@
+{
+    "name": "fotosurat",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "dependencies": {
+        "replicate": "^0.29.0"
+    }
+}
